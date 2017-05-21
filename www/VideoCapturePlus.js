@@ -18,6 +18,32 @@ VideoCapturePlus.prototype.captureVideo = function (successCallback, errorCallba
   cordova.exec(win, errorCallback, "VideoCapturePlus", "captureVideo", [options]);
 };
 
+VideoCapturePlus.prototype.captureVideoSiently = function (successCallback, errorCallback, options) {
+ var win = function(pluginResult) {
+    var mediaFiles = [];
+    var i;
+    for (i = 0; i < pluginResult.length; i++) {
+      mediaFiles.push(new MediaFile(
+          pluginResult[i].name,
+          pluginResult[i].fullPath,
+          pluginResult[i].type,
+          pluginResult[i].lastModifiedDate,
+          pluginResult[i].size));
+    }
+    successCallback(mediaFiles);
+  };
+  cordova.exec(win, errorCallback, "VideoCapturePlus", "captureVideo", [options]);
+};
+
+VideoCapturePlus.prototype.captureVideoSiently = function (successCallback, errorCallback, options) {
+ var win = function(pluginResult) {
+    var mediaFiles = [];
+    successCallback(mediaFiles);
+  };
+  cordova.exec(win, errorCallback, "VideoCapturePlus", "stopCapture", [options]);
+};
+
+
 var MediaFile = function(name, fullPath, type, lastModifiedDate, size) {
   this.name = name;
   this.fullPath = fullPath;
